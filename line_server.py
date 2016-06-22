@@ -1,8 +1,7 @@
 # remote controller server
+import pi2go
 import socket
 import threading
-
-import pi2go
 
 pi2go.init()
 
@@ -12,7 +11,6 @@ s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
 s.bind(("", KEYPORT))
 s.listen(0)
-
 
 def handle_connection(c):
     while True:
@@ -24,17 +22,15 @@ def handle_connection(c):
     c.close()
 
 
-def keypress_server():
+def line_server():
     while True:
         conn, addr = s.accept()
         print("Keypress connection from " + addr[0])
         handle_connection(conn)
         print("Keypress connection closed")
 
-
 # Here we set the speed to 60 out of 100 - feel free to change!
 speed = 60
-
 
 def robot_line():
     try:
@@ -56,4 +52,4 @@ def robot_line():
         pi2go.cleanup()
 
 
-threading.Thread(target=keypress_server).start()
+threading.Thread(target=line_server).start()

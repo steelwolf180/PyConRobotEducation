@@ -12,6 +12,5 @@ s.connect((IP, KEYPORT))
 def linefollowing():
     s.send("l".encode())
 
-
 turtle.onkeypress(linefollowing(), "l")
 turtle.listen()

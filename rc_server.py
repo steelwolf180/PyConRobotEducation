@@ -1,8 +1,7 @@
 #remote controller server
+import RPi.GPIO as GPIO
 import socket
 import threading
-
-import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
@@ -16,6 +15,11 @@ lefta = GPIO.PWM(26, 20)
 leftb = GPIO.PWM(24, 20)
 righta = GPIO.PWM(19, 20)
 rightb = GPIO.PWM(21, 20)
+
+lefta.start(0)
+leftb.start(0)
+righta.start(0)
+rightb.start(0)
 
 KEYPORT = 432
 s = socket.socket()
@@ -47,13 +51,12 @@ def handle_connection(c):
     c.close()
 
 
-def keypress_server():
+def rc_server():
     while True:
         conn, addr = s.accept()
         print("Keypress connection from " + addr[0])
         handle_connection(conn)
         print("Keypress connection closed")
-
 
 def left(speed):
     if speed > 0:
@@ -82,9 +85,5 @@ def right(speed):
         righta.ChangeDutyCycle(0)
         rightb.ChangeDutyCycle(0)
 
-lefta.start(0)
-leftb.start(0)
-righta.start(0)
-rightb.start(0)
 
-threading.Thread(target=keypress_server).start()
+threading.Thread(target=rc_server).start()

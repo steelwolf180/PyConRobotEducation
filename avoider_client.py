@@ -9,10 +9,8 @@ KEYPORT = 432
 s = socket.socket()
 s.connect((IP, KEYPORT))
 
-
 def avoider():
     s.send("o".encode())
-
 
 turtle.onkeypress(avoider(), "o")
 turtle.listen()

@@ -13,30 +13,27 @@ s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
 s.bind(("", KEYPORT))
 s.listen(0)
 
-
 def handle_connection(c):
     while True:
         data = c.recv(1).decode()
         if data == "o":
-            robot_line()
+            avoider()
         else:
             break
     c.close()
 
 
-def keypress_server():
+def avoider_server():
     while True:
         conn, addr = s.accept()
         print("Keypress connection from " + addr[0])
         handle_connection(conn)
         print("Keypress connection closed")
 
-
-# Here we set the speed to 60 out of 100 - feel free to change!
 speed = 40
 
 
-def robot_line():
+def avoider():
     try:
         while True:
             if pi2go.irLeft():
@@ -61,4 +58,4 @@ def robot_line():
         pi2go.cleanup()
 
 
-threading.Thread(target=keypress_server).start()
+threading.Thread(target=avoider_server).start()
