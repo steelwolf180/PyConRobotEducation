@@ -7,6 +7,8 @@ import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 
+lineRight = 13
+lineLeft = 12
 for motorpin in [26, 24, 19, 21]:
     GPIO.setup(motorpin, GPIO.OUT)
 
@@ -22,7 +24,6 @@ s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
 s.bind(("", KEYPORT))
 s.listen(0)
 
-
 def handle_connection(c):
     while True:
         data = c.recv(1).decode()
@@ -36,8 +37,8 @@ def handle_connection(c):
             left(-100)
             right(100)
         elif data == "d":
-            left(-100)
-            right(100)
+            left(100)
+            right(-100)
         elif data == "q":
             left(0)
             right(0)
@@ -80,7 +81,6 @@ def right(speed):
     else:
         righta.ChangeDutyCycle(0)
         rightb.ChangeDutyCycle(0)
-
 
 lefta.start(0)
 leftb.start(0)
