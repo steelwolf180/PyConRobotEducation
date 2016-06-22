@@ -1,5 +1,4 @@
 #line sensor client
-# remote controller client
 import socket
 import turtle
 
